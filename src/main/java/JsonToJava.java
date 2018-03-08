@@ -49,22 +49,25 @@ public class JsonToJava {
 
 
     public static void main(String[] args) throws Exception{
+        ArrayList<ItemUnit> itemUnits = new ArrayList<>();
         FileReader fr = new FileReader("E:\\data\\raw1\\raw.html");
         BufferedReader bfr = new BufferedReader(fr);
-        String jasonString = bfr.readLine();
-        JSONObject jsonObject = new JSONObject(jasonString);
-        //获取地址
-        JSONObject district = jsonObject.getJSONObject("district");
-        System.out.println(dealDistrict(district));
-        //获取服务数量
-        JSONArray servicesArray = jsonObject.getJSONArray("allServices");
-        System.out.println(servicesArray);
-        getAllServices(servicesArray);
-        //存放ItemUnit
-        ArrayList<ItemUnit> itemUnits = new ArrayList<>();
-        itemUnits.add(new ItemUnit(dealDistrict(district),getAllServices(servicesArray)));
+        String jasonString;
+        while ((jasonString = bfr.readLine()) != null) {
+            JSONObject jsonObject = new JSONObject(jasonString);
+            //获取地址
+            JSONObject district = jsonObject.getJSONObject("district");
+            //获取服务数量
+            JSONArray servicesArray = jsonObject.getJSONArray("allServices");
+            getAllServices(servicesArray);
+            //存放ItemUnit
+            ItemUnit itemUnit = new ItemUnit(dealDistrict(district),getAllServices(servicesArray));
+            itemUnits.add(itemUnit);
+            System.out.println(itemUnit);
+        }
 
-
-
+        bfr.close();
+        fr.close();
+        System.out.println(itemUnits.size());
     }
 }

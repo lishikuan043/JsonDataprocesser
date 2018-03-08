@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/JasonDataProcesser.iml" filepath="$PROJECT_DIR$/JasonDataProcesser.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/JsonDataprocesser.iml" filepath="$PROJECT_DIR$/.idea/JsonDataprocesser.iml" />
     </modules>
   </component>
 </project>
