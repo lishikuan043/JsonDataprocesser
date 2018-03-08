@@ -3,18 +3,46 @@ import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.util.*;
 
 public class JsonToJava {
 
-    public static String getNameinjason(JSONObject district){
-        return null;
+    public static String getNameinjason(JSONObject job,String name){
+        String s = job.getJSONObject(name).getString("name");
+        if (s.equals("null")) {
+            return "";
+        }else {
+            return s;
+        }
+
     }
 
+    //返回String类型的完整地址信息
     public static String dealDistrict(JSONObject district){
         StringBuffer sb = new StringBuffer();
-        sb.append(district.getJSONObject("province").getString("name"));
-        sb.append(district.getJSONObject("city").getString("name"));
+        sb.append(getNameinjason(district,"province"));
+        sb.append(getNameinjason(district,"city"));
+        sb.append(getNameinjason(district,"area"));
+        sb.append(getNameinjason(district,"fouth"));
         return sb.toString();
+    }
+
+    //获取区域内所有服务并存在Set中（防止重复）
+    public static Set<String> getAllServices(JSONArray jsonArray) {
+        HashSet<String> serviceSet = new HashSet<>();
+        Iterator iterator = jsonArray.iterator();
+        while (iterator.hasNext()) {
+            JSONObject jsonObject = (JSONObject)iterator.next();
+            while (iterator.hasNext()) {
+                JSONObject jObject = (JSONObject)iterator.next();
+                Map<String,Object> map = jObject.toMap();
+                ArrayList<String> services= (ArrayList<String>)map.get("services");
+                for (String s : services) {
+                    serviceSet.add(s);
+                }
+            }
+        }
+        return serviceSet;
     }
 
 
@@ -24,14 +52,17 @@ public class JsonToJava {
         FileReader fr = new FileReader("E:\\data\\raw1\\raw.html");
         BufferedReader bfr = new BufferedReader(fr);
         String jasonString = bfr.readLine();
-        System.out.println(jasonString);
         JSONObject jsonObject = new JSONObject(jasonString);
-        System.out.println(jsonObject);
+        //获取地址
         JSONObject district = jsonObject.getJSONObject("district");
-        System.out.println(district);
         System.out.println(dealDistrict(district));
+        //获取服务数量
         JSONArray servicesArray = jsonObject.getJSONArray("allServices");
         System.out.println(servicesArray);
+        getAllServices(servicesArray);
+        //存放ItemUnit
+        ArrayList<ItemUnit> itemUnits = new ArrayList<>();
+        itemUnits.add(new ItemUnit(dealDistrict(district),getAllServices(servicesArray)));
 
 
 
