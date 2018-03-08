@@ -1,4 +1,3 @@
-import java.util.HashSet;
 import java.util.Set;
 
 public class ItemUnit {
@@ -21,6 +20,20 @@ public class ItemUnit {
 
     public int getServiceNum() {
         return serviceSet.size();
+    }
+
+    public String getServicesInString() {
+        StringBuffer sb = new StringBuffer();
+        for (String s :
+                serviceSet) {
+            sb.append(s);
+            sb.append(",");
+        }
+        if (sb.length() == 0){
+            return "无服务";
+        }else {
+            return sb.deleteCharAt(sb.length()-1).toString();
+        }
     }
 
     @Override

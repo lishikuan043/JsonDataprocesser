@@ -63,11 +63,15 @@ public class JsonToJava {
             //存放ItemUnit
             ItemUnit itemUnit = new ItemUnit(dealDistrict(district),getAllServices(servicesArray));
             itemUnits.add(itemUnit);
+            if (SaveToMysql.SaveData(itemUnit) == 0) {
+                System.out.println("可能存储失败了。。。");
+            }
             System.out.println(itemUnit);
         }
 
         bfr.close();
         fr.close();
         System.out.println(itemUnits.size());
+
     }
 }
