@@ -1,0 +1,1 @@
+{"district":{"province":{"id":12,"name":"江苏"},"city":{"id":904,"name":"南京市"},"area":{"id":3375,"name":"秦淮区"},"fouth":{"id":null,"name":"null"}}, "allServices":[{"type":"热门服务","services":["99元免基础运费"]}, {"type":"中小件商品配送服务","services":["京准达"]}, {"type":"大件商品配送服务","services":["开箱验机","家电净洗"]}, {"type":"特色服务","services":["生鲜99元免基础运费","快速退款","山姆满199免运费","山姆自提","99元免基础运费"]}]}
