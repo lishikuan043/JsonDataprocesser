@@ -1,8 +1,7 @@
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
+import java.io.*;
 import java.util.*;
 
 public class JsonToJava {
@@ -45,12 +44,13 @@ public class JsonToJava {
         return serviceSet;
     }
 
-
-
-
-    public static void main(String[] args) throws Exception{
-        ArrayList<ItemUnit> itemUnits = new ArrayList<>();
-        FileReader fr = new FileReader("E:\\data\\raw1\\raw.html");
+    public static void processData( ArrayList<ItemUnit> itemUnits) throws IOException {
+        FileReader fr = null;
+        try {
+            fr = new FileReader("E:\\data\\raw1\\raw1.html");
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
         BufferedReader bfr = new BufferedReader(fr);
         String jasonString;
         while ((jasonString = bfr.readLine()) != null) {
@@ -59,19 +59,51 @@ public class JsonToJava {
             JSONObject district = jsonObject.getJSONObject("district");
             //获取服务数量
             JSONArray servicesArray = jsonObject.getJSONArray("allServices");
-            getAllServices(servicesArray);
-            //存放ItemUnit
+            //生成ItemUnit
             ItemUnit itemUnit = new ItemUnit(dealDistrict(district),getAllServices(servicesArray));
+            //储存ItemUnit到一个ArrayList
             itemUnits.add(itemUnit);
-            if (SaveToMysql.SaveData(itemUnit) == 0) {
+            //储存到Mysql中
+            /*if (SaveToMysql.SaveData(itemUnit) == 0) {
                 System.out.println("可能存储失败了。。。");
-            }
+            }*/
             System.out.println(itemUnit);
         }
-
         bfr.close();
         fr.close();
-        System.out.println(itemUnits.size());
+    }
+
+
+
+
+    public static void main(String[] args) throws Exception{
+        ArrayList<ItemUnit> itemUnits = new ArrayList<>();
+        ArrayList<String[]> data4GD = new ArrayList<>();
+        //预处理Jason数据
+        //processData(itemUnits);
+        String filepath = "E:\\data\\itemUnits.dat";
+        //保存数据
+        /*if (SerializeToFile.save(itemUnits,filepath)) {
+            System.out.println("数据保存成功！");
+        } else {
+            System.out.println("数据保存失败5555555");
+        }*/
+        //获取保存好的数据
+        itemUnits = SerializeToFile.get(filepath);
+
+        String data4GDpath = "E:\\data\\data4GD.csv";
+        /*GetGDPosition.processItem(itemUnits);
+        data4GD = GetGDPosition.processItem(itemUnits);
+        if(SerializeToFile.savedata4GD(data4GD,data4GDpath)) {
+            System.out.println("地图数据保存成功！");
+        } else {
+            System.out.println("地图数据保存失败5555555");
+        }
+
+        GetGDPosition.closeClient();
+        System.out.println(data4GD.size());*/
+
+        CreatData4GD.creatDataFile(itemUnits,data4GDpath);
 
     }
 }

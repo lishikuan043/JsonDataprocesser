@@ -1,6 +1,7 @@
+import java.io.Serializable;
 import java.util.Set;
 
-public class ItemUnit {
+public class ItemUnit implements Serializable{
 
     private String position;
     private Set<String> serviceSet;

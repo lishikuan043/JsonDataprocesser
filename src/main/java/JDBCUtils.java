@@ -23,4 +23,9 @@ public class JDBCUtils {
     public static DataSource getDataSource() {
         return dataSource;
     }
+
+    public static void main(String[] args) {
+        JDBCUtils jdbcUtils = new JDBCUtils();
+        System.out.println(getDataSource());
+    }
 }
